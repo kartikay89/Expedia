@@ -41,9 +41,6 @@ print(dataset_train.info())
 #booking_bool
 from pandas import DataFrame
 
-
-
-
 dataset_new = dataset_train[['date_time', 'visitor_location_country_id', 'prop_id', 'prop_starrating' ,'prop_review_score', 'prop_location_score1', 'price_usd', 'srch_destination_id', 'srch_length_of_stay', 'srch_booking_window', 'srch_adults_count', 'srch_children_count', 'orig_destination_distance', 'click_bool', 'booking_bool'] ]
 print(dataset_new.head())
 
@@ -54,19 +51,13 @@ dataset_new['date'] = pd.to_datetime(dataset_new['date_time'],
 format = "%Y-%m-%d %H:%M:%S")
 dataset_new['month'] = dataset_new.date.dt.month
 
-
 dataset_new = dataset_new[['visitor_location_country_id', 'prop_id', 'prop_starrating' ,'prop_review_score', 'prop_location_score1', 'price_usd', 'srch_destination_id', 'srch_length_of_stay', 'srch_booking_window', 'srch_adults_count', 'srch_children_count', 'orig_destination_distance', 'month', 'click_bool', 'booking_bool'] ]
 
 #creating objects to be used in the machine learning algorithm.
+
 X = dataset_new.iloc[:, 0:13].values
 
-
-
 y = dataset_new.iloc[:,13].values #+dataset_new.iloc[:,14].values
-
-
-
-
 
 # Checking for null(NaN) values.
 dataset_new.columns[dataset_new.isnull().any()]
@@ -79,14 +70,7 @@ dataset_new['prop_review_score'] = dataset_new.prop_review_score.fillna(mean01)
 mean02 = dataset_new.orig_destination_distance.mean()
 dataset_new['orig_destination_distance'] = dataset_new.orig_destination_distance.fillna(mean02)
 
-
-
-
-
-
-           # Modelling:
-
-
+  # Modelling: Regression
 
 # Splitting the dataset into the training set and test set.
 from sklearn.cross_validation import train_test_split
