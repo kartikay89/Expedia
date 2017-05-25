@@ -5,7 +5,7 @@ Created on Tue May 23 10:22:42 2017
 @author: Kartikay89Singh
 """
 
-# Decision tree 
+# Decision tree
 # Importing the libraries.
 
 import numpy as np
@@ -49,41 +49,36 @@ dataset1.columns[dataset1.isnull().any()]
 # Handling the missing value:
     # prop.review_score.
 mean01 = dataset1.prop_review_score.mean()
-dataset1['prop_review_score'] = dataset1.prop_review_score.fillna(mean01) 
+dataset1['prop_review_score'] = dataset1.prop_review_score.fillna(mean01)
     # orig_destination_distance.
 mean02 = dataset1.orig_destination_distance.mean()
-dataset1['orig_destination_distance'] = dataset1.orig_destination_distance.fillna(mean02) 
+dataset1['orig_destination_distance'] = dataset1.orig_destination_distance.fillna(mean02)
     # visit_price_diff:
 mean03 = dataset1.vist_price_diff.mean()
-dataset1['vist_price_diff'] = dataset1.vist_price_diff.fillna(mean01) 
- 
-
-
+dataset1['vist_price_diff'] = dataset1.vist_price_diff.fillna(mean01)
 
 # creating objects to be used in creating the model.
 
 X1 = X = dataset1.iloc[:,0:13].values
                     
+y1 = dataset1.iloc[:,13].values
 
-                    
-y1 = dataset1.iloc[:,13].values 
-                  
-                  
+
 # Splitting the dataset into the training set and test set.
 from sklearn.cross_validation import train_test_split
 X1_train, X1_test, y1_train, y1_test = train_test_split(X1, y1, test_size = 0.2, random_state = 0)
-                  
+
 # creating the decision tree model from the dataset.
 from sklearn.tree import DecisionTreeRegressor
 regressor = DecisionTreeRegressor(random_state = 0)
 regressor.fit(X1_train, y1_train)
 
 # predicting the results:
-    
+
 y_pred1 = regressor.predict(X1_test)
 
 
-# k-fold cross validation. 
+# k-fold cross validation.
 from sklearn import cross_validation
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.cross_validation import  cross_val_score
@@ -93,4 +88,3 @@ dataset1.fit(X1_train, y1_train)
 scores = cross_val_score(dataset1, X1_train, y1_train, cv=10)
 print("mean: {:.3f} (std: {:.3f})".format(scores.mean(),
 scores.std()))
-                  
