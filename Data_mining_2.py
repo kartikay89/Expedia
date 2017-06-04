@@ -46,6 +46,70 @@ print(dataset_new.head())
 
 print(dataset_new.info())
 
+#Distribution of ratings given by visitors
+visitor_star = dataset_new['visitor_hist_starrating']
+visitor_star = pd.to_numeric(visitor_star)
+
+search_id = dataset_new['srch_id']
+search_id = pd.to_numeric(search_id)
+
+visitor_rating = []
+for i in search_id:
+    if search_id[i+1] != search_id[i]:
+        x = visitor_star[i]
+        visitor_rating.append(x)
+
+
+visitor_rating = pd.Series(visitor_rating)
+plt.hist(visitor_rating.dropna(), 6, normed=True)
+plt.xlim(0,6)
+plt.ylabel('Density')
+plt.xlabel('Visitor rating')
+plt.savefig('dist_vis_rating.png')
+
+#sort on property ID
+dataset_new_prop = dataset_new.sort('prop_id')
+dataset_new_prop.head()
+
+prop_id = dataset_new_prop.prop_id
+prop_brand_bool = dataset_new_prop.prop_starrating
+brand = []
+
+print(len(brand))
+print(len(prop_brand_bool))
+chain = np.sum(brand)
+print("Number of hotels of a chian: ", chain)
+
+#Distribution of property ratings
+plt.hist(dataset_new['prop_starrating'], 6, normed=True)
+plt.ylabel('Density')
+plt.xlabel('Property rating')
+plt.savefig('prop_rating.png')
+
+#number of hotels
+hotels = dataset_new.prop_id
+n_hotels = len(set(hotels))
+print(n_hotels)
+
+#number of countries
+countries = dataset_new.prop_country_id
+n_countries = len(set(countries))
+print(n_countries)
+
+
+plt.hist(dataset_new_prop.diff_rating.dropna(), normed=True)
+plt.ylabel('Density')
+plt.xlabel('Difference between visitor and property rating')
+plt.savefig('dist_diff_rating')
+
+fig, ax = plt.subplots()
+plt.hist(dataset_new['month'], bins=range(1,14), align='left', normed=True)
+plt.ylabel('Density')
+plt.xlabel('Months')
+ax.set_xticks([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], size='small', ha='center')
+plt.savefig('booking_month.png')
+
 # Solving the date and time problem.
 dataset_new['date'] = pd.to_datetime(dataset_new['date_time'],
 format = "%Y-%m-%d %H:%M:%S")
